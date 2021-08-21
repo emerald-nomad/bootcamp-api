@@ -6,15 +6,19 @@ const {
   updateBootCamp,
   deleteBootCamp,
 } = require("../controllers").bootcamps;
+const { bootcampRepo } = require("../repositories");
 
 const router = express.Router();
 
-router.route("/").get(getBootCamps).post(createBootCamp);
+router
+  .route("/")
+  .get(getBootCamps(bootcampRepo))
+  .post(createBootCamp(bootcampRepo));
 
 router
   .route("/:id")
-  .get(getBootCamp)
-  .put(updateBootCamp)
-  .delete(deleteBootCamp);
+  .get(getBootCamp(bootcampRepo))
+  .put(updateBootCamp(bootcampRepo))
+  .delete(deleteBootCamp(bootcampRepo));
 
 module.exports = router;
