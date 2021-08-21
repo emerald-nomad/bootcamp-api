@@ -1,13 +1,18 @@
 /**
  * @typedef {Object} BootcampRepository
  * @property {GetBootcamps} getBootcamps
+ * @property {GetBootcamp} getBootcamp
  */
 
 /**
  * @callback GetBootcamps
- * @async
- * @desc Gets all bootcamps
  * @returns {Promise<Bootcamp[]>}
+ */
+
+/**
+ * @callback GetBootcamp
+ * @param {string} id
+ * @return {Promise<Bootcamp>}
  */
 
 /**
