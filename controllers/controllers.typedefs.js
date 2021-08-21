@@ -7,6 +7,6 @@
 
 /**
  * @callback BootcampRouteFunc
- * @param {BootcampRepository} bootcampRepo - Description of p
+ * @param {BootcampRepository} bootcampRepo
  * @returns {RouteFunc}
  */

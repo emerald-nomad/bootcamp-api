@@ -2,6 +2,9 @@
  * @typedef {Object} BootcampRepository
  * @property {GetBootcamps} getBootcamps
  * @property {GetBootcamp} getBootcamp
+ * @property {CreateBootcamp} createBootcamp
+ * @property {UpdateBootcamp} updateBootcamp
+ * @property {DeleteBootcamp} deleteBootcamp
  */
 
 /**
@@ -11,6 +14,24 @@
 
 /**
  * @callback GetBootcamp
+ * @param {string} id
+ * @return {Promise<Bootcamp>}
+ */
+
+/**
+ * @callback CreateBootcamp
+ * @param {Bootcamp} bootcamp
+ * @return {Promise<Bootcamp>}
+ */
+
+/**
+ * @callback UpdateBootcamp
+ * @param {Bootcamp} bootcamp
+ * @return {Promise<Bootcamp>}
+ */
+
+/**
+ * @callback DeleteBootcamp
  * @param {string} id
  * @return {Promise<Bootcamp>}
  */
