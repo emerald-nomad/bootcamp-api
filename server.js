@@ -8,36 +8,35 @@ const { bootcamps } = require("./routes");
 // Load env vars
 dotenv.config({ path: "./config/config.env" });
 
-const main = async () => {
-  let server;
+// Connect to DB
+connectDB();
 
-  try {
-    // Connect to DB
-    await connectDB();
+const app = express();
 
-    const app = express();
+// Body Parser
+app.use(express.json());
 
-    // Dev loggin mididleware
-    if (process.env.NODE_ENV === "development") {
-      app.use(morgan("dev"));
-    }
+// Dev loggin mididleware
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
 
-    // Routes
-    app.use("/api/v1/bootcamps", bootcamps);
+// Routes
+app.use("/api/v1/bootcamps", bootcamps);
 
-    const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000;
 
-    server = app.listen(
-      PORT,
-      console.log(
-        `Server running in ${process.env.NODE_ENV} mode on port ${process.env.PORT}`
-          .yellow.bold
-      )
-    );
-  } catch (error) {
-    server.close();
-    console.error(`Error: ${error.message}`.red);
-  }
-};
+const server = app.listen(
+  PORT,
+  console.log(
+    `Server running in ${process.env.NODE_ENV} mode on port ${process.env.PORT}`
+      .yellow.bold
+  )
+);
 
-main();
+// Handle unhandled promise rejections
+process.on("unhandledRejection", (err, promise) => {
+  console.log(`Error: ${err.message}`.red);
+  // Close server & exit process
+  // server.close(() => process.exit(1));
+});
