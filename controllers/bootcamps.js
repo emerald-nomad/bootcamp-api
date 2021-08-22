@@ -1,5 +1,6 @@
 require("./controllers.typedefs");
 const { ErrorResponse } = require("../utils");
+const { asyncHandler } = require("../middleware");
 
 /**
  * @type    {IBootcampRouteFunc}
@@ -7,17 +8,14 @@ const { ErrorResponse } = require("../utils");
  * @route   GET /api/v1/bootcamps
  * @desc    Get all bootcamps
  */
-exports.getBootcamps = (bootcampRepo) => async (req, res, next) => {
-  try {
+exports.getBootcamps = (bootcampRepo) =>
+  asyncHandler(async (req, res, next) => {
     const bootcamps = await bootcampRepo.getBootcamps();
 
     res
       .status(200)
       .json({ succes: true, count: bootcamps.length, data: bootcamps });
-  } catch (err) {
-    res.status(400).json({ success: false });
-  }
-};
+  });
 
 /**
  * @type    {IBootcampRouteFunc}
@@ -25,15 +23,12 @@ exports.getBootcamps = (bootcampRepo) => async (req, res, next) => {
  * @route   POST /api/v1/bootcamps
  * @desc    Create new bootcamp
  */
-exports.createBootcamp = (bootcampRepo) => async (req, res, next) => {
-  try {
+exports.createBootcamp = (bootcampRepo) =>
+  asyncHandler(async (req, res, next) => {
     const bootcamp = await bootcampRepo.createBootcamp(req.body);
 
     res.status(201).json({ succes: true, data: bootcamp });
-  } catch (err) {
-    res.status(400).json({ success: false });
-  }
-};
+  });
 
 /**
  * @type    {IBootcampRouteFunc}
@@ -41,8 +36,8 @@ exports.createBootcamp = (bootcampRepo) => async (req, res, next) => {
  * @route   GET /api/v1/bootcamps/:id
  * @desc    Get a single bootcamp
  */
-exports.getBootcamp = (bootcampRepo) => async (req, res, next) => {
-  try {
+exports.getBootcamp = (bootcampRepo) =>
+  asyncHandler(async (req, res, next) => {
     const bootcamp = await bootcampRepo.getBootcamp(req.params.id);
 
     if (!bootcamp) {
@@ -52,12 +47,7 @@ exports.getBootcamp = (bootcampRepo) => async (req, res, next) => {
     }
 
     res.status(201).json({ succes: true, data: bootcamp });
-  } catch (err) {
-    next(
-      new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404)
-    );
-  }
-};
+  });
 
 /**
  * @type    {IBootcampRouteFunc}
@@ -65,22 +55,21 @@ exports.getBootcamp = (bootcampRepo) => async (req, res, next) => {
  * @route   PUT /api/v1/bootcamps/:id
  * @desc    Update a bootcamp
  */
-exports.updateBootcamp = (bootcampRepo) => async (req, res, next) => {
-  try {
+exports.updateBootcamp = (bootcampRepo) =>
+  asyncHandler(async (req, res, next) => {
     const updatedBootcamp = await bootcampRepo.updateBootcamp(
       req.params.id,
       req.body
     );
 
     if (!updatedBootcamp) {
-      return res.status(400).json({ success: false });
+      return next(
+        new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404)
+      );
     }
 
     res.status(200).json({ succes: true, data: updatedBootcamp });
-  } catch (err) {
-    res.status(400).json({ success: false });
-  }
-};
+  });
 
 /**
  * @type    {IBootcampRouteFunc}
@@ -88,16 +77,15 @@ exports.updateBootcamp = (bootcampRepo) => async (req, res, next) => {
  * @route   DELETE /api/v1/bootcamps/:id
  * @desc    Delete a bootcamp
  */
-exports.deleteBootcamp = (bootcampRepo) => async (req, res, next) => {
-  try {
+exports.deleteBootcamp = (bootcampRepo) =>
+  asyncHandler(async (req, res, next) => {
     const deletedBootcamp = await bootcampRepo.deleteBootcamp(req.params.id);
 
     if (!deletedBootcamp) {
-      return res.status(400).json({ success: false });
+      return next(
+        new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404)
+      );
     }
 
     res.status(200).json({ succes: true, data: {} });
-  } catch (err) {
-    res.status(400).json({ success: false });
-  }
-};
+  });
