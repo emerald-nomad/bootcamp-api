@@ -1,43 +1,43 @@
 /**
- * @typedef {Object} BootcampRepository
- * @property {GetBootcamps} getBootcamps
- * @property {GetBootcamp} getBootcamp
- * @property {CreateBootcamp} createBootcamp
- * @property {UpdateBootcamp} updateBootcamp
- * @property {DeleteBootcamp} deleteBootcamp
+ * @typedef {Object} IBootcampRepository
+ * @property {IGetBootcamps} getBootcamps
+ * @property {IGetBootcamp} getBootcamp
+ * @property {ICreateBootcamp} createBootcamp
+ * @property {IUpdateBootcamp} updateBootcamp
+ * @property {IDeleteBootcamp} deleteBootcamp
  */
 
 /**
- * @callback GetBootcamps
- * @returns {Promise<Bootcamp[]>}
+ * @callback IGetBootcamps
+ * @returns {Promise<IBootcamp[]>}
  */
 
 /**
- * @callback GetBootcamp
+ * @callback IGetBootcamp
  * @param {string} id
- * @return {Promise<Bootcamp>}
+ * @return {Promise<IBootcamp>}
  */
 
 /**
- * @callback CreateBootcamp
+ * @callback ICreateBootcamp
  * @param {Bootcamp} bootcamp
- * @return {Promise<Bootcamp>}
+ * @return {Promise<IBootcamp>}
  */
 
 /**
- * @callback UpdateBootcamp
+ * @callback IUpdateBootcamp
  * @param {Bootcamp} bootcamp
- * @return {Promise<Bootcamp>}
+ * @return {Promise<IBootcamp>}
  */
 
 /**
- * @callback DeleteBootcamp
+ * @callback IDeleteBootcamp
  * @param {string} id
- * @return {Promise<Bootcamp>}
+ * @return {Promise<IBootcamp>}
  */
 
 /**
- * @typedef {Object} Bootcamp
+ * @typedef {Object} IBootcamp
  * @property {string} name
  * @property {string} slug
  * @property {string} description
@@ -45,7 +45,7 @@
  * @property {string} phone
  * @property {string} email
  * @property {string} address
- * @property {BootcampLocation} location
+ * @property {IBootcampLocation} location
  * @property {string[]} careers
  * @property {number} aveerageRating
  * @property {number} averageCost
@@ -59,7 +59,7 @@
  */
 
 /**
- * @typedef {Object} BootcampLocation
+ * @typedef {Object} IBootcampLocation
  * @property {string} type
  * @property {number[]} coordinates
  * @property {string} formattedAddress
