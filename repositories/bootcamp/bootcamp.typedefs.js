@@ -15,19 +15,20 @@
 /**
  * @callback IGetBootcamp
  * @param {string} id
- * @return {Promise<IBootcamp>}
+ * @return {Promise<IBootcamp | null>}
  */
 
 /**
  * @callback ICreateBootcamp
- * @param {Bootcamp} bootcamp
+ * @param {IBootcamp} bootcamp
  * @return {Promise<IBootcamp>}
  */
 
 /**
  * @callback IUpdateBootcamp
- * @param {Bootcamp} bootcamp
- * @return {Promise<IBootcamp>}
+ * @param {string} id
+ * @param {IBootcamp} bootcamp
+ * @return {Promise<IBootcamp | null>}
  */
 
 /**
