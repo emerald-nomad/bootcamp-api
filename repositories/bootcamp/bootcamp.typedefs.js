@@ -5,10 +5,12 @@
  * @property {ICreateBootcamp} createBootcamp
  * @property {IUpdateBootcamp} updateBootcamp
  * @property {IDeleteBootcamp} deleteBootcamp
+ * @property {IGetBootcampsInRadius} getBootcampsInRadius
  */
 
 /**
  * @callback IGetBootcamps
+ * @param {object} [query={}]
  * @returns {Promise<IBootcamp[]>}
  */
 
@@ -35,6 +37,19 @@
  * @callback IDeleteBootcamp
  * @param {string} id
  * @return {Promise<IBootcamp>}
+ */
+
+/**
+ * @typedef {Object} IGetBootcampsInRadiusParams
+ * @property {number} radius
+ * @property {number} lat
+ * @property {number} lng
+ */
+
+/**
+ * @callback IGetBootcampsInRadius
+ * @param {IGetBootcampsInRadiusParams}
+ * @return {Promise<IBootcamp[]>}
  */
 
 /**

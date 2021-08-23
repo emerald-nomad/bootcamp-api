@@ -9,8 +9,20 @@ const bootcampRepository = {
     return newBootcamp;
   },
 
-  getBootcamps: async () => {
-    const bootcamps = await Bootcamp.find();
+  getBootcamps: async (query = {}) => {
+    const bootcamps = await Bootcamp.find(query);
+
+    return bootcamps;
+  },
+
+  getBootcampsInRadius: async ({ radius, lat, lng }) => {
+    const bootcamps = await Bootcamp.find({
+      location: {
+        $geoWithin: {
+          $centerSphere: [[lng, lat], radius],
+        },
+      },
+    });
 
     return bootcamps;
   },
