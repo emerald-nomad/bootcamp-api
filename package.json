@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "NODE_ENV=production node server",
-    "dev": "nodemon server"
+    "dev": "nodemon server",
+    "export-data": "node seed -e",
+    "delete-data": "node seed -d"
   },
   "author": "Jalen Greene",
   "license": "MIT",
