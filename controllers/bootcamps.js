@@ -10,16 +10,29 @@ const { asyncHandler } = require("../middleware");
  */
 exports.getBootcamps = (bootcampRepo) =>
   asyncHandler(async (req, res, next) => {
-    let query = {};
+    const fieldsToRemove = ["select", "sort"];
+    let select;
+    let sort;
 
-    let queryStr = JSON.stringify(req.query).replace(
-      /\b(gt|gte|lt|lte|in)\b/g,
-      (match) => `$${match}`
-    );
+    if (req.query.select) {
+      select = req.query.select.split(",").join(" ");
+    }
 
-    query = JSON.parse(queryStr);
+    if (req.query.sort) {
+      sort = req.query.sort.split(",").join(" ");
+    }
 
-    const bootcamps = await bootcampRepo.getBootcamps(query);
+    fieldsToRemove.forEach((param) => delete req.query[param]);
+
+    const queryStr =
+      // Turning query object into string
+      JSON.stringify(req.query)
+        // Adding a '$' in front of filter operators
+        .replace(/\b(gt|gte|lt|lte|in)\b/g, (match) => `$${match}`);
+
+    const query = JSON.parse(queryStr);
+
+    const bootcamps = await bootcampRepo.getBootcamps({ query, select, sort });
 
     res
       .status(200)

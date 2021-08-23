@@ -9,8 +9,8 @@ const bootcampRepository = {
     return newBootcamp;
   },
 
-  getBootcamps: async (query = {}) => {
-    const bootcamps = await Bootcamp.find(query);
+  getBootcamps: async ({ query, select, sort = "-createdAt" }) => {
+    const bootcamps = await Bootcamp.find(query).select(select).sort(sort);
 
     return bootcamps;
   },

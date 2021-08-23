@@ -9,8 +9,15 @@
  */
 
 /**
+ * @typedef {Object} IGetBootcampsParams
+ * @property {object} [query={}]
+ * @property {string} [select='']
+ * @property {string} [sort='']
+ */
+
+/**
  * @callback IGetBootcamps
- * @param {object} [query={}]
+ * @param {IGetBootcampsParams} [params={}]
  * @returns {Promise<IBootcamp[]>}
  */
 
