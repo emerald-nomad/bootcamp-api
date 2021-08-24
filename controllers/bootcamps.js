@@ -3,12 +3,12 @@ const { ErrorResponse, createGeocoder } = require("../utils");
 const { asyncHandler } = require("../middleware");
 
 /**
- * @type    {IBootcampRouteFunc}
+ * @type    {IRouteFunc}
  * @access  Public
  * @route   GET /api/v1/bootcamps
  * @desc    Get all bootcamps
  */
-exports.getBootcamps = (bootcampRepo) =>
+exports.getBootcamps = ({ bootcampRepo }) =>
   asyncHandler(async (req, res, next) => {
     const fieldsToRemove = ["select", "sort", "page", "limit"];
     const pagination = {};
@@ -75,12 +75,12 @@ exports.getBootcamps = (bootcampRepo) =>
   });
 
 /**
- * @type    {IBootcampRouteFunc}
+ * @type    {IRouteFunc}
  * @access  Private
  * @route   POST /api/v1/bootcamps
  * @desc    Create new bootcamp
  */
-exports.createBootcamp = (bootcampRepo) =>
+exports.createBootcamp = ({ bootcampRepo }) =>
   asyncHandler(async (req, res, next) => {
     const bootcamp = await bootcampRepo.createBootcamp(req.body);
 
@@ -88,12 +88,12 @@ exports.createBootcamp = (bootcampRepo) =>
   });
 
 /**
- * @type    {IBootcampRouteFunc}
+ * @type    {IRouteFunc}
  * @access  Public
  * @route   GET /api/v1/bootcamps/:id
  * @desc    Get a single bootcamp
  */
-exports.getBootcamp = (bootcampRepo) =>
+exports.getBootcamp = ({ bootcampRepo }) =>
   asyncHandler(async (req, res, next) => {
     const bootcamp = await bootcampRepo.getBootcamp(req.params.id);
 
@@ -107,12 +107,12 @@ exports.getBootcamp = (bootcampRepo) =>
   });
 
 /**
- * @type    {IBootcampRouteFunc}
+ * @type    {IRouteFunc}
  * @access  Public
  * @route   GET /api/v1/bootcamps/radius/:zipcode/:distance
  * @desc    Get bootcamps within a radius
  */
-exports.getBootcampsInRadius = (bootcampRepo) =>
+exports.getBootcampsInRadius = ({ bootcampRepo }) =>
   asyncHandler(async (req, res, next) => {
     const geocoder = createGeocoder();
 
@@ -139,12 +139,12 @@ exports.getBootcampsInRadius = (bootcampRepo) =>
   });
 
 /**
- * @type    {IBootcampRouteFunc}
+ * @type    {IRouteFunc}
  * @access  Private
  * @route   PUT /api/v1/bootcamps/:id
  * @desc    Update a bootcamp
  */
-exports.updateBootcamp = (bootcampRepo) =>
+exports.updateBootcamp = ({ bootcampRepo }) =>
   asyncHandler(async (req, res, next) => {
     const updatedBootcamp = await bootcampRepo.updateBootcamp(
       req.params.id,
@@ -161,12 +161,12 @@ exports.updateBootcamp = (bootcampRepo) =>
   });
 
 /**
- * @type    {IBootcampRouteFunc}
+ * @type    {IRouteFunc}
  * @access  Private
  * @route   DELETE /api/v1/bootcamps/:id
  * @desc    Delete a bootcamp
  */
-exports.deleteBootcamp = (bootcampRepo) =>
+exports.deleteBootcamp = ({ bootcampRepo }) =>
   asyncHandler(async (req, res, next) => {
     const deletedBootcamp = await bootcampRepo.deleteBootcamp(req.params.id);
 

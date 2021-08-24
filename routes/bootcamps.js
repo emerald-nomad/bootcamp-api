@@ -7,7 +7,7 @@ const {
   deleteBootcamp,
   getBootcampsInRadius,
 } = require("../controllers").bootcamps;
-const { bootcampRepo } = require("../repositories");
+const repos = require("../repositories");
 
 // INclude other resource routers
 const courseRouter = require("./courses");
@@ -17,19 +17,14 @@ const router = express.Router();
 // Re-route into other resource routers
 router.use("/:bootcampId/courses", courseRouter);
 
-router
-  .route("/")
-  .get(getBootcamps(bootcampRepo))
-  .post(createBootcamp(bootcampRepo));
+router.route("/").get(getBootcamps(repos)).post(createBootcamp(repos));
 
 router
   .route("/:id")
-  .get(getBootcamp(bootcampRepo))
-  .put(updateBootcamp(bootcampRepo))
-  .delete(deleteBootcamp(bootcampRepo));
+  .get(getBootcamp(repos))
+  .put(updateBootcamp(repos))
+  .delete(deleteBootcamp(repos));
 
-router
-  .route("/radius/:zipcode/:distance")
-  .get(getBootcampsInRadius(bootcampRepo));
+router.route("/radius/:zipcode/:distance").get(getBootcampsInRadius(repos));
 
 module.exports = router;

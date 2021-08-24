@@ -19,7 +19,13 @@
  */
 
 /**
+ * @callback IAddCourse
+ * @returns {Promise<ICourse>}
+ */
+
+/**
  * @typedef {Object} ICourse
+ * @property {string} id
  * @property {string} title
  * @property {string} description
  * @property {string} weeks
