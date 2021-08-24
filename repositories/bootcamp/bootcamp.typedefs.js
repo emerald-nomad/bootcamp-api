@@ -6,6 +6,12 @@
  * @property {IUpdateBootcamp} updateBootcamp
  * @property {IDeleteBootcamp} deleteBootcamp
  * @property {IGetBootcampsInRadius} getBootcampsInRadius
+ * @property {IGetNumberOfBootcamps} getNumberOfBootcamps
+ */
+
+/**
+ * @callback IGetNumberOfBootcamps
+ * @returns {number}
  */
 
 /**
@@ -13,6 +19,8 @@
  * @property {object} [query={}]
  * @property {string} [select='']
  * @property {string} [sort='']
+ * @property {number} [limit=100]
+ * @property {number} [skip=0]
  */
 
 /**
