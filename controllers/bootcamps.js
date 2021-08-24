@@ -1,4 +1,4 @@
-require("./controllers.typedefs");
+/// <reference path="./controllers.typedefs.js" />
 const { ErrorResponse, createGeocoder } = require("../utils");
 const { asyncHandler } = require("../middleware");
 

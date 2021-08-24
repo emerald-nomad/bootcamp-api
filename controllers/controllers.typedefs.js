@@ -1,3 +1,6 @@
+/// <reference path="../repositories/course/course.typedefs.js" />
+/// <reference path="../repositories/bootcamp/bootcamp.typedefs.js" />
+
 /**
  * @callback IRouteFunc
  * @param {import("express").Request} req

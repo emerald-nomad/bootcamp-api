@@ -4,7 +4,7 @@ const morgan = require("morgan");
 const colors = require("colors");
 const { errorHandler } = require("./middleware");
 const connectDB = require("./config/db");
-const { bootcamps } = require("./routes");
+const { bootcamps, courses } = require("./routes");
 
 // Load env vars
 dotenv.config({ path: "./config/config.env" });
@@ -24,6 +24,7 @@ if (process.env.NODE_ENV === "development") {
 
 // Routes
 app.use("/api/v1/bootcamps", bootcamps);
+app.use("/api/v1/courses", courses);
 
 app.use(errorHandler);
 

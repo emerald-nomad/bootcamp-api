@@ -1,8 +1,14 @@
-require("../bootcamp/bootcamp.typedefs");
+/// <reference path="../bootcamp/bootcamp.typedefs.js" />
 
 /**
  * @typedef {Object} ICourseRepository
- * @property {number} test
+ * @property {IGetCourses} getCourses
+ */
+
+/**
+ * @callback IGetCourses
+ * @param {string} [bootcampId=]
+ * @returns {Promise<ICourse[]>}
  */
 
 /**
