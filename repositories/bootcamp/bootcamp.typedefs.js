@@ -51,7 +51,7 @@
 /**
  * @callback IDeleteBootcamp
  * @param {string} id
- * @return {Promise<IBootcamp>}
+ * @return {Promise<Boolean>}
  */
 
 /**

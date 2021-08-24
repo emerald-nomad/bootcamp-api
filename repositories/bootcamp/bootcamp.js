@@ -24,7 +24,8 @@ const bootcampRepository = {
       .select(select)
       .sort(sort)
       .skip(skip)
-      .limit(limit);
+      .limit(limit)
+      .populate("courses");
 
     return bootcamps;
   },
@@ -57,9 +58,13 @@ const bootcampRepository = {
   },
 
   deleteBootcamp: async (id) => {
-    const deletedBootcamp = await Bootcamp.findByIdAndDelete(id);
+    const bootcamp = await Bootcamp.findById(id);
 
-    return deletedBootcamp;
+    if (!bootcamp) return false;
+
+    bootcamp.remove();
+
+    return true;
   },
 };
 

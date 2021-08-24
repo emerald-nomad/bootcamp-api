@@ -7,7 +7,10 @@ const courseRepository = {
     if (bootcampId) {
       return await Course.find({ bootcamp: bootcampId });
     } else {
-      return await Course.find();
+      return await Course.find().populate({
+        path: "bootcamp",
+        select: "name description",
+      });
     }
   },
 };
