@@ -4,6 +4,7 @@
  * @typedef {Object} ICourseRepository
  * @property {IGetCourses} getCourses
  * @property {IGetCourse} getCourse
+ * @property {ICreateCourse} createCourse
  */
 
 /**
@@ -19,7 +20,8 @@
  */
 
 /**
- * @callback IAddCourse
+ * @callback ICreateCourse
+ * @param {ICourse} course
  * @returns {Promise<ICourse>}
  */
 

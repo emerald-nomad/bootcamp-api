@@ -3,6 +3,10 @@ const { Course } = require("../../models");
 
 /** @type {ICourseRepository} */
 const courseRepository = {
+  createCourse: async (course) => {
+    return Course.create(course);
+  },
+
   getCourses: async (bootcampId) => {
     if (bootcampId) {
       return await Course.find({ bootcamp: bootcampId });
@@ -15,7 +19,7 @@ const courseRepository = {
   },
 
   getCourse: async (id) => {
-    return await Course.findById(id).populate({
+    return Course.findById(id).populate({
       path: "bootcamp",
       select: "name description",
     });
