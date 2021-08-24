@@ -3,12 +3,19 @@
 /**
  * @typedef {Object} ICourseRepository
  * @property {IGetCourses} getCourses
+ * @property {IGetCourse} getCourse
  */
 
 /**
  * @callback IGetCourses
  * @param {string} [bootcampId=]
  * @returns {Promise<ICourse[]>}
+ */
+
+/**
+ * @callback IGetCourse
+ * @param {string} id
+ * @returns {Promise<ICourse | null>}
  */
 
 /**

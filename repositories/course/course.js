@@ -13,6 +13,13 @@ const courseRepository = {
       });
     }
   },
+
+  getCourse: async (id) => {
+    return await Course.findById(id).populate({
+      path: "bootcamp",
+      select: "name description",
+    });
+  },
 };
 
 module.exports = courseRepository;
