@@ -10,3 +10,9 @@
  * @param {IBootcampRepository} bootcampRepo
  * @returns {IRouteFunc}
  */
+
+/**
+ * @callback ICourseRouteFunc
+ * @param {ICourseRepository} courseRepo
+ * @returns {IRouteFunc}
+ */
