@@ -76,23 +76,43 @@ exports.addCourse = ({ courseRepo, bootcampRepo }) =>
  * @route   PUT /api/v1/courses/:id
  * @desc    Update a course
  */
-exports.updateCourse = ({ courseRepo, bootcampRepo }) =>
+exports.updateCourse = ({ courseRepo }) =>
   asyncHandler(async (req, res, next) => {
-    const course = await courseRepo.getCourse(req.params.id);
-
-    if (!course) {
-      return next(
-        new ErrorResponse(`No course with the id of ${req.params.id}`, 404)
-      );
-    }
-
     const updatedCourse = await courseRepo.updateCourse({
       id: req.params.id,
       course: req.body,
     });
 
+    if (!updatedCourse) {
+      return next(
+        new ErrorResponse(`No course with the id of ${req.params.id}`, 404)
+      );
+    }
+
     res.status(200).json({
       success: true,
       data: updatedCourse,
+    });
+  });
+
+/**
+ * @type    {IRouteFunc}
+ * @access  Private
+ * @route   DELETE /api/v1/courses/:id
+ * @desc    Delete a course
+ */
+exports.deleteCourse = ({ courseRepo }) =>
+  asyncHandler(async (req, res, next) => {
+    const deletedCourse = await courseRepo.deleteCourse(req.params.id);
+
+    if (!deletedCourse) {
+      return next(
+        new ErrorResponse(`No course with the id of ${req.params.id}`, 404)
+      );
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {},
     });
   });

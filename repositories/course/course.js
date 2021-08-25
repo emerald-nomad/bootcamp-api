@@ -26,10 +26,24 @@ const courseRepository = {
   },
 
   updateCourse: async ({ id, course }) => {
+    const exists = await Course.findById(id);
+
+    if (!exists) return null;
+
     return Course.findByIdAndUpdate(id, course, {
       new: true,
       runValidators: true,
     });
+  },
+
+  deleteCourse: async (id) => {
+    const course = await Course.findById(id);
+
+    if (!course) return false;
+
+    course.remove();
+
+    return true;
   },
 };
 

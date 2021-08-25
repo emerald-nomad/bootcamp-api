@@ -6,6 +6,7 @@
  * @property {IGetCourse} getCourse
  * @property {ICreateCourse} createCourse
  * @property {IUpdateCourse} updateCourse
+ * @property {IDeleteCourse} deleteCourse
  */
 
 /**
@@ -35,7 +36,13 @@
 /**
  * @callback IUpdateCourse
  * @param {IUpdateCourseParams} params
- * @return {Promise<ICourse>}
+ * @return {Promise<ICourse | null>}
+ */
+
+/**
+ * @callback IDeleteCourse
+ * @param {string} id
+ * @return {Promise<Boolean>}
  */
 
 /**
