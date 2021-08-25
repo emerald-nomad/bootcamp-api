@@ -5,6 +5,7 @@
  * @property {IGetCourses} getCourses
  * @property {IGetCourse} getCourse
  * @property {ICreateCourse} createCourse
+ * @property {IUpdateCourse} updateCourse
  */
 
 /**
@@ -23,6 +24,18 @@
  * @callback ICreateCourse
  * @param {ICourse} course
  * @returns {Promise<ICourse>}
+ */
+
+/**
+ * @typedef {Object} IUpdateCourseParams
+ * @property {string} id
+ * @property {Partial<ICourse>} course
+ */
+
+/**
+ * @callback IUpdateCourse
+ * @param {IUpdateCourseParams} params
+ * @return {Promise<ICourse>}
  */
 
 /**

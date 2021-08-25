@@ -29,7 +29,7 @@ exports.getCourses = ({ courseRepo }) =>
 exports.getCourse = ({ courseRepo }) =>
   asyncHandler(async (req, res, next) => {
     const course = await courseRepo.getCourse(req.params.id);
-    console.log(course);
+
     if (!course) {
       return next(
         new ErrorResponse(`No course with the id of ${req.params.id}`, 404)
@@ -67,5 +67,32 @@ exports.addCourse = ({ courseRepo, bootcampRepo }) =>
     res.status(200).json({
       success: true,
       data: course,
+    });
+  });
+
+/**
+ * @type    {IRouteFunc}
+ * @access  Private
+ * @route   PUT /api/v1/courses/:id
+ * @desc    Update a course
+ */
+exports.updateCourse = ({ courseRepo, bootcampRepo }) =>
+  asyncHandler(async (req, res, next) => {
+    const course = await courseRepo.getCourse(req.params.id);
+
+    if (!course) {
+      return next(
+        new ErrorResponse(`No course with the id of ${req.params.id}`, 404)
+      );
+    }
+
+    const updatedCourse = await courseRepo.updateCourse({
+      id: req.params.id,
+      course: req.body,
+    });
+
+    res.status(200).json({
+      success: true,
+      data: updatedCourse,
     });
   });

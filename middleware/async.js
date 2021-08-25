@@ -1,5 +1,5 @@
 /**
- * @param {IRouteFunc} fn
+ * @param {IRouteFuncCallback} fn
  * @returns
  */
 const asyncHandler = (fn) => (req, res, next) =>

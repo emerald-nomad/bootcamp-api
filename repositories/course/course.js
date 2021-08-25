@@ -24,6 +24,13 @@ const courseRepository = {
       select: "name description",
     });
   },
+
+  updateCourse: async ({ id, course }) => {
+    return Course.findByIdAndUpdate(id, course, {
+      new: true,
+      runValidators: true,
+    });
+  },
 };
 
 module.exports = courseRepository;
