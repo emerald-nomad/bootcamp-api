@@ -1,3 +1,31 @@
+/// <reference path="../controllers/controllers.typedefs.js" />
+
+/**
+ * @typedef {Object} IFindFuncParams
+ * @property {object} [query={}]
+ * @property {string} [select='']
+ * @property {string} [sort='']
+ * @property {number} [limit=100]
+ * @property {number} [skip=0]
+ */
+
+/**
+ * @callback IFindFunc
+ * @param {IFindFuncParams} params
+ * @returns {Promise<[]>}
+ */
+
+/**
+ * @callback ICountFunc
+ * @returns {Promise<number>}
+ */
+
+/**
+ *
+ * @param {IFindFunc} find
+ * @param {ICountFunc} count
+ * @returns {IRouteFunc}
+ */
 const advancedResults = (find, count) => async (req, res, next) => {
   const fieldsToRemove = ["select", "sort", "page", "limit"];
   const pagination = {};

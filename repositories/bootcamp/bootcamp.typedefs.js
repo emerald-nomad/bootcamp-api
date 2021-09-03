@@ -11,7 +11,7 @@
 
 /**
  * @callback IGetNumberOfBootcamps
- * @returns {number}
+ * @returns {Promise<number>}
  */
 
 /**
