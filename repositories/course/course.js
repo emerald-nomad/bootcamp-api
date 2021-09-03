@@ -7,15 +7,30 @@ const courseRepository = {
     return Course.create(course);
   },
 
-  getCourses: async (bootcampId) => {
-    if (bootcampId) {
-      return await Course.find({ bootcamp: bootcampId });
-    } else {
-      return await Course.find().populate({
+  getNumberOfCourses: async () => {
+    return await Course.countDocuments();
+  },
+
+  getCourses: async ({
+    query,
+    select,
+    sort = "-createdAt",
+    skip = 0,
+    limit = 25,
+  }) => {
+    return await Course.find(query)
+      .select(select)
+      .sort(sort)
+      .skip(skip)
+      .limit(limit)
+      .populate({
         path: "bootcamp",
         select: "name description",
       });
-    }
+  },
+
+  getCoursesByBootcampId: async (bootcampId) => {
+    return await Course.find({ bootcamp: bootcampId });
   },
 
   getCourse: async (id) => {

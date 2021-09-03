@@ -8,7 +8,9 @@ const {
   getBootcampsInRadius,
   uploadBootcampPhoto,
 } = require("../controllers").bootcamps;
+const { advancedResults } = require("../middleware");
 const repos = require("../repositories");
+const { bootcampRepo } = repos;
 
 // INclude other resource routers
 const courseRouter = require("./courses");
@@ -18,7 +20,16 @@ const router = express.Router();
 // Re-route into other resource routers
 router.use("/:bootcampId/courses", courseRouter);
 
-router.route("/").get(getBootcamps(repos)).post(createBootcamp(repos));
+router
+  .route("/")
+  .get(
+    advancedResults(
+      bootcampRepo.getBootcamps,
+      bootcampRepo.getNumberOfBootcamps
+    ),
+    getBootcamps(repos)
+  )
+  .post(createBootcamp(repos));
 
 router
   .route("/:id")

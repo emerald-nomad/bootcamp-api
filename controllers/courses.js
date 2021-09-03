@@ -11,13 +11,18 @@ const { asyncHandler } = require("../middleware");
  */
 exports.getCourses = ({ courseRepo }) =>
   asyncHandler(async (req, res, next) => {
-    const courses = await courseRepo.getCourses(req.params.bootcampId);
+    const { bootcampId } = req.params;
+    if (bootcampId) {
+      const courses = await courseRepo.getCourses(req.params.bootcampId);
 
-    res.status(200).json({
-      success: true,
-      count: courses.length,
-      data: courses,
-    });
+      return res.status(200).json({
+        success: true,
+        count: courses.length,
+        data: courses,
+      });
+    } else {
+      return res.status(200).json(res.advancedResults);
+    }
   });
 
 /**

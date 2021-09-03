@@ -3,15 +3,37 @@
 /**
  * @typedef {Object} ICourseRepository
  * @property {IGetCourses} getCourses
+ * @property {IGetCoursesByBootcampId} getCoursesByBootcampId
  * @property {IGetCourse} getCourse
  * @property {ICreateCourse} createCourse
  * @property {IUpdateCourse} updateCourse
  * @property {IDeleteCourse} deleteCourse
+ * @property {IGetNumberOfCourses} getNumberOfCourses
+ */
+
+/**
+ * @callback IGetNumberOfCourses
+ * @returns {number}
+ */
+
+/**
+ * @typedef {Object} IGetCoursesParams
+ * @property {object} [query={}]
+ * @property {string} [select='']
+ * @property {string} [sort='']
+ * @property {number} [limit=100]
+ * @property {number} [skip=0]
  */
 
 /**
  * @callback IGetCourses
- * @param {string} [bootcampId=]
+ * @param {IGetCoursesParams} params
+ * @returns {Promise<ICourse[]>}
+ */
+
+/**
+ * @callback IGetCoursesByBootcampId
+ * @param {string} bootcampId
  * @returns {Promise<ICourse[]>}
  */
 
