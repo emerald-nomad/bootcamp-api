@@ -1,10 +1,12 @@
 /// <reference path="../repositories/course/course.typedefs.js" />
 /// <reference path="../repositories/bootcamp/bootcamp.typedefs.js" />
+/// <reference path="../repositories/auth/auth.typedefs.js" />
 
 /**
  * @typedef IRouteFuncParams
  * @property {ICourseRepository} courseRepo
  * @property {IBootcampRepository} bootcampRepo
+ * @property {IAuthRepository} authRepo
  */
 
 /**

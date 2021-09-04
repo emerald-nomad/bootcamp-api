@@ -1,4 +1,4 @@
-require("./bootcamp.typedefs");
+/// <reference path="./bootcamp.typedefs.js" />
 const { Bootcamp } = require("../../models");
 
 /** @type {IBootcampRepository} */
