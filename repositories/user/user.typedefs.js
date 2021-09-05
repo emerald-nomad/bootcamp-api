@@ -1,12 +1,19 @@
 /**
  * @typedef IUserRepository
- * @property {IGetUser} getUser
+ * @property {IGetUserByEmail} getUserByEmail
+ * @property {IGetUserById} getUserById
  */
 
 /**
- * @callback IGetUser
+ * @callback IGetUserByEmail
  * @param {string} email
  * @param {string} [select=""]
+ * @returns {Promise<IUser | null>}
+ */
+
+/**
+ * @callback IGetUserById
+ * @param {string} id
  * @returns {Promise<IUser | null>}
  */
 

@@ -63,7 +63,7 @@ exports.login = ({ userRepo }) =>
       );
     }
 
-    const user = await userRepo.getUser(email, "+password");
+    const user = await userRepo.getUserByEmail(email, "+password");
 
     if (!user) {
       return next(new ErrorResponse("Invalid credentials", 401));
@@ -77,4 +77,17 @@ exports.login = ({ userRepo }) =>
     }
 
     return sendTokenResponse(user, 200, res);
+  });
+
+/**
+ * @type    {IRouteFunc}
+ * @access  Privatee
+ * @route   POST /api/v1/auth/me
+ * @desc    Get current logged in user
+ */
+exports.getMe = ({ userRepo }) =>
+  asyncHandler(async (req, res, next) => {
+    const user = await userRepo.getUserById(req.userId);
+
+    res.status(200).json({ success: true, data: user });
   });

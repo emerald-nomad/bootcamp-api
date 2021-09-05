@@ -2,7 +2,7 @@ const express = require("express");
 const repos = require("../repositories");
 const { getCourses, getCourse, addCourse, updateCourse, deleteCourse } =
   require("../controllers").courses;
-const { advancedResults } = require("../middleware");
+const { advancedResults, protect } = require("../middleware");
 
 const { courseRepo } = repos;
 
@@ -14,12 +14,12 @@ router
     advancedResults(courseRepo.getCourses, courseRepo.getNumberOfCourses),
     getCourses(repos)
   )
-  .post(addCourse(repos));
+  .post(protect, addCourse(repos));
 
 router
   .route("/:id")
   .get(getCourse(repos))
-  .put(updateCourse(repos))
-  .delete(deleteCourse(repos));
+  .put(protect, updateCourse(repos))
+  .delete(protect, deleteCourse(repos));
 
 module.exports = router;
