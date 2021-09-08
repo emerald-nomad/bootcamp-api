@@ -56,14 +56,25 @@ exports.getCourse = ({ courseRepo }) =>
 exports.addCourse = ({ courseRepo, bootcampRepo }) =>
   asyncHandler(async (req, res, next) => {
     const { bootcampId } = req.params;
+    req.body.user = req.user.id;
 
     req.body.bootcamp = bootcampId;
 
-    const bootcampExists = await bootcampRepo.getBootcamp(bootcampId);
+    const bootcamp = await bootcampRepo.getBootcamp(bootcampId);
 
-    if (!bootcampExists) {
+    if (!bootcamp) {
       return next(
         new ErrorResponse(`No bootcamp with the id of ${bootcampId}`, 404)
+      );
+    }
+
+    // Make sure user is bootcamp owner
+    if (bootcamp.user.toString() !== req.user.id && req.user.role !== "Admin") {
+      return next(
+        new ErrorResponse(
+          `User ${req.user.id} is not authorized to update this resource`,
+          401
+        )
       );
     }
 
@@ -83,16 +94,28 @@ exports.addCourse = ({ courseRepo, bootcampRepo }) =>
  */
 exports.updateCourse = ({ courseRepo }) =>
   asyncHandler(async (req, res, next) => {
-    const updatedCourse = await courseRepo.updateCourse({
-      id: req.params.id,
-      course: req.body,
-    });
+    const course = await courseRepo.getCourse(req.params.id);
 
-    if (!updatedCourse) {
+    if (!course) {
       return next(
         new ErrorResponse(`No course with the id of ${req.params.id}`, 404)
       );
     }
+
+    // Make sure user is bootcamp owner
+    if (course.user.toString() !== req.user.id && req.user.role !== "Admin") {
+      return next(
+        new ErrorResponse(
+          `User ${req.user.id} is not authorized to update this resource`,
+          401
+        )
+      );
+    }
+
+    const updatedCourse = await courseRepo.updateCourse({
+      id: req.params.id,
+      course: req.body,
+    });
 
     res.status(200).json({
       success: true,
