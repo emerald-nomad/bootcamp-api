@@ -9,7 +9,7 @@ const { asyncHandler } = require("../middleware");
  * @route   GET /api/v1/bootcamps
  * @desc    Get all bootcamps
  */
-exports.getBootcamps = ({ bootcampRepo }) =>
+exports.getBootcamps = () =>
   asyncHandler(async (req, res, next) => {
     res.status(200).json(res.advancedResults);
   });
@@ -22,6 +22,21 @@ exports.getBootcamps = ({ bootcampRepo }) =>
  */
 exports.createBootcamp = ({ bootcampRepo }) =>
   asyncHandler(async (req, res, next) => {
+    const userId = req.user.id;
+    // Add user to req.body
+    req.body.user = userId;
+
+    // Check for published bootcamp by user
+    const publishedBootcamp = await bootcampRepo.getBootcampByUserId(userId);
+    if (publishedBootcamp && req.user.role !== "Admin") {
+      return next(
+        new ErrorResponse(
+          `User with id ${userId} has already published a bootcamp`,
+          400
+        )
+      );
+    }
+
     const bootcamp = await bootcampRepo.createBootcamp(req.body);
 
     res.status(201).json({ succes: true, data: bootcamp });

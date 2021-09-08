@@ -7,6 +7,7 @@
  * @property {IDeleteBootcamp} deleteBootcamp
  * @property {IGetBootcampsInRadius} getBootcampsInRadius
  * @property {IGetNumberOfBootcamps} getNumberOfBootcamps
+ * @property {IGetBootcampByUserId} getBootcampByUserId
  */
 
 /**
@@ -32,6 +33,12 @@
 /**
  * @callback IGetBootcamp
  * @param {string} id
+ * @return {Promise<IBootcamp | null>}
+ */
+
+/**
+ * @callback IGetBootcampByUserId
+ * @param {string} userId
  * @return {Promise<IBootcamp | null>}
  */
 

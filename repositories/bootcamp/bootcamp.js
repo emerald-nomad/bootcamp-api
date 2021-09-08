@@ -48,6 +48,10 @@ const bootcampRepository = {
     return bootcamp;
   },
 
+  getBootcampByUserId: async (userId) => {
+    return Bootcamp.findOne({ user: userId });
+  },
+
   updateBootcamp: async (id, bootcamp) => {
     const updatedBootcamp = await Bootcamp.findByIdAndUpdate(id, bootcamp, {
       new: true,
