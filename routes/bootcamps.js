@@ -8,7 +8,7 @@ const {
   getBootcampsInRadius,
   uploadBootcampPhoto,
 } = require("../controllers").bootcamps;
-const { advancedResults, protect } = require("../middleware");
+const { advancedResults, protect, authorize } = require("../middleware");
 const repos = require("../repositories");
 
 const { bootcampRepo } = repos;
@@ -30,16 +30,18 @@ router
     ),
     getBootcamps(repos)
   )
-  .post(protect, createBootcamp(repos));
+  .post(protect, authorize("Publisher", "Admin"), createBootcamp(repos));
 
 router
   .route("/:id")
   .get(getBootcamp(repos))
-  .put(protect, updateBootcamp(repos))
-  .delete(protect, deleteBootcamp(repos));
+  .put(protect, authorize("Publisher", "Admin"), updateBootcamp(repos))
+  .delete(protect, authorize("Publisher", "Admin"), deleteBootcamp(repos));
 
 router.route("/radius/:zipcode/:distance").get(getBootcampsInRadius(repos));
 
-router.route("/:id/photo").put(protect, uploadBootcampPhoto(repos));
+router
+  .route("/:id/photo")
+  .put(protect, authorize("Publisher", "Admin"), uploadBootcampPhoto(repos));
 
 module.exports = router;

@@ -4,7 +4,7 @@ const { ErrorResponse } = require("../utils");
 const { getUserById } = require("../repositories").userRepo;
 
 // Protect routes
-const protect = asyncHandler(async (req, res, next) => {
+exports.protect = asyncHandler(async (req, res, next) => {
   const { authorization, cookie } = req.headers;
   let token;
 
@@ -24,7 +24,7 @@ const protect = asyncHandler(async (req, res, next) => {
     // Verify token
     const { id } = jwt.verify(token, process.env.JWT_SECRET);
 
-    req.userId = await getUserById(id);
+    req.user = await getUserById(id);
 
     next();
   } catch {
@@ -32,4 +32,20 @@ const protect = asyncHandler(async (req, res, next) => {
   }
 });
 
-module.exports = protect;
+// Grant access to specific roles
+/** @param {string[]} roles */
+exports.authorize = (...roles) => {
+  /** @type {IRouteFuncCallback} */
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return next(
+        new ErrorResponse(
+          `User with role '${req.user.role}' is not authorized to access this resource`,
+          403
+        )
+      );
+    }
+
+    next();
+  };
+};
