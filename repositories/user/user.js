@@ -10,6 +10,13 @@ const userRepo = {
   getUserById: async (id) => {
     return User.findById(id);
   },
+
+  getUserByResetToken: async (resetToken) => {
+    return User.findOne({
+      resetPasswordToken: resetToken,
+      resetPasswordExpire: { $gt: Date.now() },
+    });
+  },
 };
 
 module.exports = userRepo;

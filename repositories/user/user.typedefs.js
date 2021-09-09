@@ -2,6 +2,7 @@
  * @typedef IUserRepository
  * @property {IGetUserByEmail} getUserByEmail
  * @property {IGetUserById} getUserById
+ * @property {IGetUserByResetToken} getUserByResetToken
  */
 
 /**
@@ -14,6 +15,12 @@
 /**
  * @callback IGetUserById
  * @param {string} id
+ * @returns {Promise<IUser | null>}
+ */
+
+/**
+ * @callback IGetUserByResetToken
+ * @param {string} resetToken
  * @returns {Promise<IUser | null>}
  */
 

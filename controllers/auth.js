@@ -1,4 +1,5 @@
 /// <reference path="./controllers.typedefs.js" />
+const crypto = require("crypto");
 const { ErrorResponse, sendEmail } = require("../utils");
 const { asyncHandler } = require("../middleware");
 
@@ -114,7 +115,7 @@ exports.forgotPassword = ({ userRepo }) =>
     // Create reset url
     const resetUrl = `${req.protocol}://${req.get(
       "host"
-    )}/api/v1/resetpassword/${resetToken}`;
+    )}/api/v1/auth/resetpassword/${resetToken}`;
 
     const message = `You are a receiving this email because you have requested thee reset of a password. Pleasse make a PUT request too: \n\n ${resetUrl}`;
 
@@ -136,4 +137,36 @@ exports.forgotPassword = ({ userRepo }) =>
 
       return next(new ErrorResponse("Email could not be sent", 500));
     }
+  });
+
+/**
+ * @type    {IRouteFunc}
+ * @access  Public
+ * @route   PUT /api/v1/auth/resetpassword/:resetToken
+ * @desc    Reset Password
+ */
+exports.resetPassword = ({ userRepo }) =>
+  asyncHandler(async (req, res, next) => {
+    const { resetToken } = req.params;
+    const { password } = req.body;
+
+    const resetPasswordToken = crypto
+      .createHash("sha256")
+      .update(resetToken)
+      .digest("hex");
+
+    const user = await userRepo.getUserByResetToken(resetPasswordToken);
+
+    if (!user) {
+      return next(new ErrorResponse("Invalid token", 400));
+    }
+
+    // Set new password
+    user.password = password;
+    user.resetPasswordExpire = undefined;
+    user.resetPasswordToken = undefined;
+
+    await user.save();
+
+    sendTokenResponse(user, 200, res);
   });
