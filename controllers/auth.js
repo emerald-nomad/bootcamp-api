@@ -1,5 +1,5 @@
 /// <reference path="./controllers.typedefs.js" />
-const { ErrorResponse } = require("../utils");
+const { ErrorResponse, sendEmail } = require("../utils");
 const { asyncHandler } = require("../middleware");
 
 //
@@ -81,7 +81,7 @@ exports.login = ({ userRepo }) =>
 
 /**
  * @type    {IRouteFunc}
- * @access  Privatee
+ * @access  Private
  * @route   POST /api/v1/auth/me
  * @desc    Get current logged in user
  */
@@ -90,4 +90,50 @@ exports.getMe = ({ userRepo }) =>
     const user = await userRepo.getUserById(req.userId);
 
     res.status(200).json({ success: true, data: user });
+  });
+
+/**
+ * @type    {IRouteFunc}
+ * @access  Public
+ * @route   POST /api/v1/auth/forgotpassword
+ * @desc    Forgot Password
+ */
+exports.forgotPassword = ({ userRepo }) =>
+  asyncHandler(async (req, res, next) => {
+    const user = await userRepo.getUserByEmail(req.body.email);
+
+    if (!user) {
+      return next(new ErrorResponse(`There is no user with that email`, 404));
+    }
+
+    // Get reset token
+    const resetToken = user.getResetPasswordToken();
+
+    await user.save({ validateForSave: false });
+
+    // Create reset url
+    const resetUrl = `${req.protocol}://${req.get(
+      "host"
+    )}/api/v1/resetpassword/${resetToken}`;
+
+    const message = `You are a receiving this email because you have requested thee reset of a password. Pleasse make a PUT request too: \n\n ${resetUrl}`;
+
+    try {
+      await sendEmail({
+        email: user.email,
+        subject: "Password reset token",
+        message,
+      });
+
+      res.status(200).json({ success: true });
+    } catch (err) {
+      console.err(err);
+
+      user.resetPasswordToken = undefined;
+      user.resetPasswordExpire = undefined;
+
+      await user.save({ validateForSave: false });
+
+      return next(new ErrorResponse("Email could not be sent", 500));
+    }
   });
