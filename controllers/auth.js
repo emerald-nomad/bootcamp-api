@@ -3,7 +3,6 @@ const crypto = require("crypto");
 const { ErrorResponse, sendEmail } = require("../utils");
 const { asyncHandler } = require("../middleware");
 
-//
 /**
  * @description Get token from model, create cookie and send response
  * @param {IUser} user
@@ -38,12 +37,12 @@ const sendTokenResponse = (user, statusCode, res) => {
  * @route   POST /api/v1/auth/register
  * @desc    Register User
  */
-exports.register = ({ authRepo }) =>
+exports.register = ({ userRepo }) =>
   asyncHandler(async (req, res, next) => {
     const { name, email, password, role } = req.body;
 
     // Create user
-    const user = await authRepo.registerUser({ name, email, password, role });
+    const user = await userRepo.registerUser({ name, email, password, role });
 
     return sendTokenResponse(user, 200, res);
   });

@@ -17,6 +17,10 @@ const userRepo = {
       resetPasswordExpire: { $gt: Date.now() },
     });
   },
+
+  registerUser: async (newUser) => {
+    return User.create(newUser);
+  },
 };
 
 module.exports = userRepo;

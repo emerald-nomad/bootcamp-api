@@ -3,6 +3,7 @@
  * @property {IGetUserByEmail} getUserByEmail
  * @property {IGetUserById} getUserById
  * @property {IGetUserByResetToken} getUserByResetToken
+ * @property {IRegisterUser} registerUser
  */
 
 /**
@@ -33,4 +34,18 @@
  * @property {string} resetPasswordToken
  * @property {Date} resetPasswordExpire
  * @property {Date} createdAt
+ */
+
+/**
+ * @typedef {Object} IRegisterUserParams
+ * @property {string} name
+ * @property {string} password
+ * @property {string} email
+ * @property {string} role
+ */
+
+/**
+ * @callback IRegisterUser
+ * @param {IRegisterUserParams} newUser
+ * @return {Promise<IUser>}
  */
